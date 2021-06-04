@@ -1,22 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createClient, Provider } from 'urql';
+import { Home } from './src/screens/Home';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Welcome to cross-platform Connect app</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold'
-  },
+const client = createClient({
+  url: 'https://hasura-social-connect.herokuapp.com/v1/graphql',
+  fetchOptions: {
+    headers: {
+      'x-hasura-admin-secret': '96Q63&ix!wKVthdSV2sX'
+    }
+  }
 });
+
+const App = () => {
+  return (
+    <Provider value={client}>
+      <Home />
+    </Provider>
+  );
+};
+
+export default App;
